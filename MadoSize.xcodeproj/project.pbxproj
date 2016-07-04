@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		73981A2A1D29AF1B0017086D /* AccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73981A291D29AF1B0017086D /* AccessibilityElement.swift */; };
+		73981A2C1D2A02E90017086D /* ShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73981A2B1D2A02E90017086D /* ShortcutRecorder.swift */; };
+		73981A2E1D2A12100017086D /* MadoSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73981A2D1D2A12100017086D /* MadoSize.xib */; };
 		73E7FEED1D2379B7003F2DB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */; };
-		73E7FEEF1D2379B7003F2DB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FEEE1D2379B7003F2DB4 /* ViewController.swift */; };
 		73E7FEF11D2379B7003F2DB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */; };
-		73E7FEF41D2379B7003F2DB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73E7FEF21D2379B7003F2DB4 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		73981A291D29AF1B0017086D /* AccessibilityElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityElement.swift; sourceTree = "<group>"; };
+		73981A2B1D2A02E90017086D /* ShortcutRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutRecorder.swift; sourceTree = "<group>"; };
+		73981A2D1D2A12100017086D /* MadoSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MadoSize.xib; sourceTree = "<group>"; };
 		73E7FEE91D2379B7003F2DB4 /* MadoSize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MadoSize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		73E7FEEE1D2379B7003F2DB4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		73E7FEF31D2379B7003F2DB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		73E7FEF51D2379B7003F2DB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,10 +54,11 @@
 		73E7FEEB1D2379B7003F2DB4 /* MadoSize */ = {
 			isa = PBXGroup;
 			children = (
+				73981A291D29AF1B0017086D /* AccessibilityElement.swift */,
 				73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */,
-				73E7FEEE1D2379B7003F2DB4 /* ViewController.swift */,
+				73981A2B1D2A02E90017086D /* ShortcutRecorder.swift */,
 				73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */,
-				73E7FEF21D2379B7003F2DB4 /* Main.storyboard */,
+				73981A2D1D2A12100017086D /* MadoSize.xib */,
 				73E7FEF51D2379B7003F2DB4 /* Info.plist */,
 			);
 			path = MadoSize;
@@ -93,6 +96,7 @@
 				TargetAttributes = {
 					73E7FEE81D2379B7003F2DB4 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = A5S59GAS97;
 					};
 				};
 			};
@@ -120,7 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73E7FEF11D2379B7003F2DB4 /* Assets.xcassets in Resources */,
-				73E7FEF41D2379B7003F2DB4 /* Main.storyboard in Resources */,
+				73981A2E1D2A12100017086D /* MadoSize.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,23 +135,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73E7FEEF1D2379B7003F2DB4 /* ViewController.swift in Sources */,
+				73981A2A1D29AF1B0017086D /* AccessibilityElement.swift in Sources */,
 				73E7FEED1D2379B7003F2DB4 /* AppDelegate.swift in Sources */,
+				73981A2C1D2A02E90017086D /* ShortcutRecorder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		73E7FEF21D2379B7003F2DB4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				73E7FEF31D2379B7003F2DB4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		73E7FEF61D2379B7003F2DB4 /* Debug */ = {
@@ -236,6 +230,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MadoSize/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -248,6 +243,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MadoSize/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -275,6 +271,7 @@
 				73E7FEFA1D2379B7003F2DB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
