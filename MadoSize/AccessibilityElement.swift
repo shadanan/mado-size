@@ -98,6 +98,23 @@ class AccessibilityElement {
         return size
     }
     
+    func title() -> String? {
+        guard CFGetTypeID(underlyingElement) == AXUIElementGetTypeID() else {
+            return nil
+        }
+        
+        var result: AnyObject?
+        guard AXUIElementCopyAttributeValue(underlyingElement, kAXTitleAttribute, &result) == .Success else {
+            return nil
+        }
+        
+        guard let value = result as? String else {
+            return nil
+        }
+        
+        return value
+    }
+    
     func setPosition(origin: CGPoint) {
         var origin = origin
         guard let value = AXValueCreate(.CGPoint, &origin) else {

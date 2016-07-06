@@ -1,0 +1,17 @@
+#!/bin/bash
+base="AppIcon.png"
+
+if [ -z $base ]; then
+  echo "Usage: genappicons <base icon>"
+else
+  convert "$base" -resize '16x16'     "AppIcon-16.png"
+  convert "$base" -resize '32x32'     "AppIcon-16@2x.png"
+  convert "$base" -resize '32x32'     "AppIcon-32.png"
+  convert "$base" -resize '64x64'     "AppIcon-32@2x.png"
+  convert "$base" -resize '128x128'   "AppIcon-128.png"
+  convert "$base" -resize '256x256'   "AppIcon-128@2x.png"
+  convert "$base" -resize '256x256'   "AppIcon-256.png"
+  convert "$base" -resize '512x512'   "AppIcon-256@2x.png"
+  convert "$base" -resize '512x512'   "AppIcon-512.png"
+  convert "$base" -resize '1024x1024' "AppIcon-512@2x.png"
+fi

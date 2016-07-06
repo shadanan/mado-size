@@ -15,6 +15,8 @@
         <customObject id="7pU-Mb-c1n" userLabel="Delegate" customClass="AppDelegate" customModule="MadoSize" customModuleProvider="target">
             <connections>
                 <outlet property="statusItemMenu" destination="Oog-xU-HMw" id="m9b-af-mca"/>
+                <outlet property="windowDimensionsMenuItem" destination="Ycw-95-PGj" id="8bT-Wa-DxV"/>
+                <outlet property="windowTitleMenuItem" destination="sfK-sT-1dc" id="fUe-ek-JAr"/>
             </connections>
         </customObject>
         <menu title="Mado Status Item" id="Oog-xU-HMw" userLabel="Status Item Menu">
@@ -26,11 +28,18 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="B6x-fe-Eg9"/>
-                <menuItem title="Dimensions of :app:" id="sfK-sT-1dc">
+                <menuItem title="Set Dimensions Menu Item" id="sfK-sT-1dc">
+                    <attributedString key="attributedTitle"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="setWindowDimensions:" target="7pU-Mb-c1n" id="DXx-RR-Gxp"/>
+                    </connections>
                 </menuItem>
                 <menuItem title="x: :x: y: :y: w: :w: h: :h:" id="Ycw-95-PGj">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="copyWindowDimensions:" target="7pU-Mb-c1n" id="xlM-Ps-PZY"/>
+                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="11P-gD-NSj"/>
                 <menuItem title="Preferences..." id="ujp-RK-hNc">
@@ -38,6 +47,9 @@
                 </menuItem>
                 <menuItem title="Quit" id="T3e-si-8hF">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="terminate:" target="-2" id="IAT-zg-0XH"/>
+                    </connections>
                 </menuItem>
             </items>
             <connections>
