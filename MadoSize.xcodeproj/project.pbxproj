@@ -77,6 +77,7 @@
 				73E7FEE51D2379B7003F2DB4 /* Sources */,
 				73E7FEE61D2379B7003F2DB4 /* Frameworks */,
 				73E7FEE71D2379B7003F2DB4 /* Resources */,
+				734937951D33067A00DFEC39 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -133,6 +134,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		734937951D33067A00DFEC39 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env python";
+			shellScript = "import os\nimport subprocess\n\nproc = subprocess.Popen(['git', 'describe'], stdout=subprocess.PIPE)\ngit_describe, _ = proc.communicate()\nversion, build, _ = git_describe[1:].split('-')\nbundle_version = '.'.join([version, build])\n\nplist_file = os.path.join(os.environ['TARGET_BUILD_DIR'], os.environ['INFOPLIST_PATH'])\nsubprocess.call(['/usr/libexec/PlistBuddy', '-c', \"Set :CFBundleVersion %s\" % bundle_version, plist_file])\nsubprocess.call(['/usr/libexec/PlistBuddy', '-c', \"Set :CFBundleShortVersionString %s\" % version, plist_file])";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		73E7FEE51D2379B7003F2DB4 /* Sources */ = {
