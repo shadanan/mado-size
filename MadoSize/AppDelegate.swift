@@ -9,97 +9,47 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    @IBOutlet weak var statusItemMenu: NSMenu!
-    @IBOutlet weak var windowTitleMenuItem: NSMenuItem!
-    @IBOutlet weak var windowDimensionsMenuItem: NSMenuItem!
-
-    var statusItem: NSStatusItem!
-    var setDimensionsDialog: SetDimensionsController!
+class AppDelegate: NSObject, NSApplicationDelegate {
+    var dimensionsView: NSPopover?
+    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
-        statusItem.image = NSImage(named: "StatusItem")
-        statusItem.menu = statusItemMenu
-        statusItemMenu.autoenablesItems = false
-        
-        NSEvent.addGlobalMonitorForEventsMatchingMask(.KeyDownMask, handler: self.globalKeyDown)
+        if let button = statusItem.button {
+            button.image = NSImage(named: "StatusItem")
+            button.action = #selector(toggleDimensionsView)
+        }
     }
     
-    func globalKeyDown(theEvent: NSEvent) {
-        guard let char = theEvent.charactersIgnoringModifiers else {
-            return
-        }
+    func showDimensionsView(sender: AnyObject?) {
+        if let button = statusItem.button {
+            let appWindow = AppWindow.frontmost()
 
-        let hasControl = theEvent.modifierFlags.contains(.ControlKeyMask)
-        let hasAlternate = theEvent.modifierFlags.contains(.AlternateKeyMask)
-        let hasShift = theEvent.modifierFlags.contains(.ShiftKeyMask)
-        let hasCommand = theEvent.modifierFlags.contains(.CommandKeyMask)
-        
-        print("keyCode: \(hasControl ? "⌃" : "")\(hasAlternate ? "⌥" : "")\(hasShift ? "⇧" : "")\(hasCommand ? "⌘" : "")\(char)")
-        
-        guard char == "d" && hasControl && hasAlternate && hasCommand && !hasShift else {
-            return
+            let dimensionsView = NSPopover()
+            dimensionsView.contentViewController = DimensionsViewController(window: appWindow)
+            dimensionsView.showRelativeToRect(button.bounds, ofView: button, preferredEdge: .MinY)
+            self.dimensionsView = dimensionsView
         }
-        
-        guard let frontmostWindow = AccessibilityElement.frontmostWindowElement() else {
-            return
-        }
-        
-        print("position=\(frontmostWindow.position()!), size=\(frontmostWindow.size()!)")
-        
-        frontmostWindow.setPosition(CGPoint(x: 58, y: 48))
-        frontmostWindow.setSize(CGSize(width: 1280, height: 774))
     }
+    
+    func closeDimensionsView(sender: AnyObject?) {
+        if let dimensionsView = dimensionsView {
+            dimensionsView.performClose(sender)
+        }
 
+        dimensionsView = nil
+    }
+    
+    func toggleDimensionsView(sender: AnyObject?) {
+        if dimensionsView == nil {
+            showDimensionsView(sender)
+        } else {
+            closeDimensionsView(sender)
+        }
+    }
+    
     func applicationWillTerminate(aNotification: NSNotification) {
         
         // Insert code here to tear down your application
-    }
-    
-    func menuWillOpen(menu: NSMenu) {
-        guard
-            let window = AccessibilityElement.frontmostWindowElement(),
-            title = window.title(),
-            position = window.position(),
-            size = window.size() else {
-                windowTitleMenuItem.title = "No Window Has Focus"
-                windowTitleMenuItem.enabled = false
-                windowDimensionsMenuItem.title = "Origin: (-, -), Size: (-, -)"
-                return
-        }
-        
-        windowTitleMenuItem.title = "Set Dimensions of \(title)..."
-        windowTitleMenuItem.enabled = true
-        windowDimensionsMenuItem.title = "Origin: (\(Int(position.x)), \(Int(position.y))), Size: (\(Int(size.width)), \(Int(size.height)))"
-    }
-
-    @IBAction func copyWindowDimensions(sender: NSMenuItem) {
-        NSPasteboard.generalPasteboard().clearContents()
-        NSPasteboard.generalPasteboard().setString(windowDimensionsMenuItem.title, forType: NSStringPboardType)
-    }
-
-    @IBAction func setWindowDimensions(sender: NSMenuItem) {
-        guard
-            let window = AccessibilityElement.frontmostWindowElement(),
-            position = window.position(),
-            size = window.size() else {
-                return
-        }
-
-        let currentApp = NSWorkspace.sharedWorkspace().frontmostApplication
-        NSApp.activateIgnoringOtherApps(true)
-        
-        setDimensionsDialog = SetDimensionsController(position: position, size: size)
-        
-        if let dialogWindow = setDimensionsDialog.window {
-            let result = NSApp.runModalForWindow(dialogWindow)
-            print("Result: \(result)")
-        }
-        
-        if let currentApp = currentApp {
-            currentApp.activateWithOptions(.ActivateAllWindows)
-        }
     }
 }
 

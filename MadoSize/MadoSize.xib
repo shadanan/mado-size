@@ -15,33 +15,10 @@
         <customObject id="7pU-Mb-c1n" userLabel="Delegate" customClass="AppDelegate" customModule="MadoSize" customModuleProvider="target">
             <connections>
                 <outlet property="statusItemMenu" destination="Oog-xU-HMw" id="m9b-af-mca"/>
-                <outlet property="windowDimensionsMenuItem" destination="Ycw-95-PGj" id="8bT-Wa-DxV"/>
-                <outlet property="windowTitleMenuItem" destination="sfK-sT-1dc" id="fUe-ek-JAr"/>
             </connections>
         </customObject>
         <menu title="Mado Status Item" id="Oog-xU-HMw" userLabel="Status Item Menu">
             <items>
-                <menuItem title="Centered, 720p" id="u5r-2E-EZL">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                </menuItem>
-                <menuItem title="Centered, 1080p" id="C1q-DP-atG">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="B6x-fe-Eg9"/>
-                <menuItem title="Set Dimensions Menu Item" id="sfK-sT-1dc">
-                    <attributedString key="attributedTitle"/>
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="setWindowDimensions:" target="7pU-Mb-c1n" id="DXx-RR-Gxp"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="x: :x: y: :y: w: :w: h: :h:" id="Ycw-95-PGj">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="copyWindowDimensions:" target="7pU-Mb-c1n" id="xlM-Ps-PZY"/>
-                    </connections>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="11P-gD-NSj"/>
                 <menuItem title="Preferences..." id="ujp-RK-hNc">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>

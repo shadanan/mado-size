@@ -1,0 +1,10 @@
+#!/bin/bash
+base="StatusItem.png"
+
+if [ -z $base ]; then
+  echo "Usage: $0 <base icon>"
+else
+  convert "$base" -resize '20x20'     "MadoSize/Assets.xcassets/StatusItem.imageset/StatusItem.png"
+  convert "$base" -resize '40x40'     "MadoSize/Assets.xcassets/StatusItem.imageset/StatusItem@2x.png"
+  convert "$base" -resize '60x60'     "MadoSize/Assets.xcassets/StatusItem.imageset/StatusItem@3x.png"
+fi
