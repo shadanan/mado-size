@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let appWindow = AppWindow.frontmost()
 
             let dimensionsView = NSPopover()
-            dimensionsView.contentViewController = DimensionsViewController(window: appWindow)
+            dimensionsView.contentViewController = MadoPopoverController(window: appWindow)
             dimensionsView.showRelativeToRect(button.bounds, ofView: button, preferredEdge: .MinY)
             self.dimensionsView = dimensionsView
         }

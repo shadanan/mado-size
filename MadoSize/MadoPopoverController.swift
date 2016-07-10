@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class DimensionsViewController: NSViewController {
+class MadoPopoverController: NSViewController {
     @IBOutlet weak var xPosTextField: NSTextField!
     @IBOutlet weak var yPosTextField: NSTextField!
     @IBOutlet weak var widthTextField: NSTextField!
@@ -23,7 +23,7 @@ class DimensionsViewController: NSViewController {
     var monitor: AnyObject?
 
     convenience init(window: AppWindow?) {
-        self.init(nibName: "DimensionsViewController", bundle: nil)!
+        self.init(nibName: "MadoPopoverController", bundle: nil)!
         self.window = window
     }
     

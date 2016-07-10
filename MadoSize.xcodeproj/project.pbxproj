@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		734937941D3301E400DFEC39 /* MadoSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = 734937931D3301E400DFEC39 /* MadoSize.xib */; };
 		73981A2A1D29AF1B0017086D /* AppWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73981A291D29AF1B0017086D /* AppWindow.swift */; };
-		73981A3D1D31E65B0017086D /* DimensionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73981A3B1D31E65B0017086D /* DimensionsViewController.swift */; };
-		73981A3E1D31E65B0017086D /* DimensionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73981A3C1D31E65B0017086D /* DimensionsViewController.xib */; };
+		73981A3D1D31E65B0017086D /* MadoPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73981A3B1D31E65B0017086D /* MadoPopoverController.swift */; };
+		73981A3E1D31E65B0017086D /* MadoPopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73981A3C1D31E65B0017086D /* MadoPopoverController.xib */; };
 		73E7FEED1D2379B7003F2DB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */; };
 		73E7FEF11D2379B7003F2DB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -18,8 +18,8 @@
 /* Begin PBXFileReference section */
 		734937931D3301E400DFEC39 /* MadoSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MadoSize.xib; sourceTree = "<group>"; };
 		73981A291D29AF1B0017086D /* AppWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppWindow.swift; sourceTree = "<group>"; };
-		73981A3B1D31E65B0017086D /* DimensionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimensionsViewController.swift; sourceTree = "<group>"; };
-		73981A3C1D31E65B0017086D /* DimensionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DimensionsViewController.xib; sourceTree = "<group>"; };
+		73981A3B1D31E65B0017086D /* MadoPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MadoPopoverController.swift; sourceTree = "<group>"; };
+		73981A3C1D31E65B0017086D /* MadoPopoverController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MadoPopoverController.xib; sourceTree = "<group>"; };
 		73E7FEE91D2379B7003F2DB4 /* MadoSize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MadoSize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,11 +57,11 @@
 			isa = PBXGroup;
 			children = (
 				73E7FEEC1D2379B7003F2DB4 /* AppDelegate.swift */,
-				73981A291D29AF1B0017086D /* AppWindow.swift */,
-				73981A3B1D31E65B0017086D /* DimensionsViewController.swift */,
-				73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */,
-				73981A3C1D31E65B0017086D /* DimensionsViewController.xib */,
 				734937931D3301E400DFEC39 /* MadoSize.xib */,
+				73981A291D29AF1B0017086D /* AppWindow.swift */,
+				73981A3B1D31E65B0017086D /* MadoPopoverController.swift */,
+				73981A3C1D31E65B0017086D /* MadoPopoverController.xib */,
+				73E7FEF01D2379B7003F2DB4 /* Assets.xcassets */,
 				73E7FEF51D2379B7003F2DB4 /* Info.plist */,
 			);
 			path = MadoSize;
@@ -128,7 +128,7 @@
 			files = (
 				73E7FEF11D2379B7003F2DB4 /* Assets.xcassets in Resources */,
 				734937941D3301E400DFEC39 /* MadoSize.xib in Resources */,
-				73981A3E1D31E65B0017086D /* DimensionsViewController.xib in Resources */,
+				73981A3E1D31E65B0017086D /* MadoPopoverController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +141,7 @@
 			files = (
 				73981A2A1D29AF1B0017086D /* AppWindow.swift in Sources */,
 				73E7FEED1D2379B7003F2DB4 /* AppDelegate.swift in Sources */,
-				73981A3D1D31E65B0017086D /* DimensionsViewController.swift in Sources */,
+				73981A3D1D31E65B0017086D /* MadoPopoverController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

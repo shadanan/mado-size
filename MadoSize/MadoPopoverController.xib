@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="DimensionsViewController" customModule="MadoSize" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="MadoPopoverController" customModule="MadoSize" customModuleProvider="target">
             <connections>
                 <outlet property="centerButton" destination="il7-SP-U1W" id="dhN-6A-hyC"/>
                 <outlet property="heightTextField" destination="5SK-aO-O1D" id="nBd-Vr-6k9"/>
