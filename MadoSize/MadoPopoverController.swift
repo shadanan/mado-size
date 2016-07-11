@@ -73,6 +73,49 @@ class MadoPopoverController: NSViewController {
             appDelegate.closeDimensionsView(self)
         }
     }
+    
+    override func keyDown(theEvent: NSEvent) {
+        guard let window = window else {
+            return
+        }
+
+        let hasControl = theEvent.modifierFlags.contains(.ControlKeyMask)
+        let hasAlternate = theEvent.modifierFlags.contains(.AlternateKeyMask)
+        let hasShift = theEvent.modifierFlags.contains(.ShiftKeyMask)
+        let hasCommand = theEvent.modifierFlags.contains(.CommandKeyMask)
+        
+        let delta = hasShift ? 5 : 1
+        
+        if !hasControl && !hasAlternate && !hasCommand {
+            if theEvent.keyCode == 123 {
+                window.position = CGPoint(x: xPosTextField.integerValue - delta, y: yPosTextField.integerValue)
+                load()
+            } else if theEvent.keyCode == 124 {
+                window.position = CGPoint(x: xPosTextField.integerValue + delta, y: yPosTextField.integerValue)
+                load()
+            } else if theEvent.keyCode == 125 {
+                window.position = CGPoint(x: xPosTextField.integerValue, y: yPosTextField.integerValue + delta)
+                load()
+            } else if theEvent.keyCode == 126 {
+                window.position = CGPoint(x: xPosTextField.integerValue, y: yPosTextField.integerValue - delta)
+                load()
+            }
+        } else if !hasControl && hasAlternate && !hasCommand {
+            if theEvent.keyCode == 123 {
+                window.size = CGSize(width: widthTextField.integerValue - delta, height: heightTextField.integerValue)
+                load()
+            } else if theEvent.keyCode == 124 {
+                window.size = CGSize(width: widthTextField.integerValue + delta, height: heightTextField.integerValue)
+                load()
+            } else if theEvent.keyCode == 125 {
+                window.size = CGSize(width: widthTextField.integerValue, height: heightTextField.integerValue + delta)
+                load()
+            } else if theEvent.keyCode == 126 {
+                window.size = CGSize(width: widthTextField.integerValue, height: heightTextField.integerValue - delta)
+                load()
+            }
+        }
+    }
 
     @IBAction func quitApplication(sender: AnyObject) {
         NSApp.terminate(self)
@@ -106,6 +149,15 @@ class MadoPopoverController: NSViewController {
         }
         
         window.center()
+        load()
+    }
+
+    @IBAction func maximizeWindow(sender: AnyObject) {
+        guard let window = window else {
+            return
+        }
+        
+        window.maximize()
         load()
     }
 }

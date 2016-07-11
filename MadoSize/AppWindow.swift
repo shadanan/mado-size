@@ -72,6 +72,13 @@ class AppWindow {
         }
     }
     
+    func maximize() {
+        if let screen = screen() {
+            position = CGPoint(x: screen.visibleFrame.minX, y: screen.frame.maxY - screen.visibleFrame.maxY)
+            size = screen.visibleFrame.size
+        }
+    }
+    
     func activateWithOptions(options: NSApplicationActivationOptions) {
         app.activateWithOptions(options)
     }

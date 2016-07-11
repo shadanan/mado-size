@@ -188,6 +188,16 @@
                         <action selector="centerWindow:" target="-2" id="Mt8-C4-IPU"/>
                     </connections>
                 </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-X9-rk6">
+                    <rect key="frame" x="192" y="65" width="22" height="22"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="InactiveMaximize" imagePosition="only" alignment="center" alternateImage="ActiveMaximize" imageScaling="proportionallyUpOrDown" inset="2" id="Zcc-E1-S9V">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="maximizeWindow:" target="-2" id="eD0-Oj-gyD"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="rXG-gn-o2V" firstAttribute="baseline" secondItem="1ze-lz-xVr" secondAttribute="baseline" id="50q-uw-f0B"/>
@@ -241,7 +251,9 @@
     <resources>
         <image name="ActiveCenter" width="1792" height="1792"/>
         <image name="ActiveCog" width="800" height="512"/>
+        <image name="ActiveMaximize" width="1792" height="1792"/>
         <image name="InactiveCenter" width="1792" height="1792"/>
         <image name="InactiveCog" width="800" height="512"/>
+        <image name="InactiveMaximize" width="1792" height="1792"/>
     </resources>
 </document>
