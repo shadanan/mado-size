@@ -65,11 +65,36 @@ class AppWindow {
     }
     
     func center() {
-        print("Centering window")
+        if let screen = screen(), size = size {
+            let newX = screen.visibleFrame.midX - size.width / 2
+            let newY = screen.frame.maxY - (screen.visibleFrame.midY + size.height / 2)
+            position = CGPoint(x: newX, y: newY)
+        }
     }
     
     func activateWithOptions(options: NSApplicationActivationOptions) {
         app.activateWithOptions(options)
+    }
+    
+    func screen() -> NSScreen? {
+        guard let screens = NSScreen.screens(), position = position, size = size else {
+            return nil
+        }
+        
+        let appFrame = NSRect(origin: position, size: size)
+        
+        var result: NSScreen? = nil
+        var area: CGFloat = 0
+
+        for screen in screens {
+            let overlap = screen.frame.intersect(appFrame)
+            if overlap.width * overlap.height > area {
+                area = overlap.width * overlap.height
+                result = screen
+            }
+        }
+        
+        return result
     }
     
     var position: CGPoint? {
