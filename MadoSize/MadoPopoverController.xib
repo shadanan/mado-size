@@ -28,8 +28,8 @@
                     <rect key="frame" x="0.0" y="120" width="224" height="38"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T4X-LT-WCn">
-                            <rect key="frame" x="91" y="10" width="42" height="18"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Mado" id="vEY-rK-GVn">
+                            <rect key="frame" x="71" y="10" width="82" height="18"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Current App" id="vEY-rK-GVn">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -188,8 +188,12 @@
                         <action selector="centerWindow:" target="-2" id="Mt8-C4-IPU"/>
                     </connections>
                 </button>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qct-X9-rk6">
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Qct-X9-rk6">
                     <rect key="frame" x="192" y="65" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="t0q-la-x59"/>
+                        <constraint firstAttribute="width" constant="22" id="ymx-w1-fiL"/>
+                    </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="InactiveMaximize" imagePosition="only" alignment="center" alternateImage="ActiveMaximize" imageScaling="proportionallyUpOrDown" inset="2" id="Zcc-E1-S9V">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -217,6 +221,7 @@
                 <constraint firstItem="2c2-0v-VWW" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="38" id="Ybe-Sv-E1s"/>
                 <constraint firstItem="i21-hi-iFM" firstAttribute="baseline" secondItem="jaA-zP-GrP" secondAttribute="baseline" id="YvQ-Et-tIX"/>
                 <constraint firstItem="il7-SP-U1W" firstAttribute="leading" secondItem="i21-hi-iFM" secondAttribute="trailing" constant="8" id="awx-qw-yhb"/>
+                <constraint firstItem="Qct-X9-rk6" firstAttribute="centerY" secondItem="5SK-aO-O1D" secondAttribute="centerY" id="baa-05-P2d"/>
                 <constraint firstAttribute="trailing" secondItem="zdR-IH-OQs" secondAttribute="trailing" id="bfF-a7-Y3k"/>
                 <constraint firstItem="5SK-aO-O1D" firstAttribute="leading" secondItem="dgt-9y-IKH" secondAttribute="trailing" constant="2" id="bo6-f6-F0c"/>
                 <constraint firstItem="2c2-0v-VWW" firstAttribute="baseline" secondItem="hxO-4B-vXv" secondAttribute="baseline" id="bsF-vS-Aec"/>
@@ -228,6 +233,7 @@
                 <constraint firstAttribute="bottom" secondItem="il7-SP-U1W" secondAttribute="bottom" constant="10" id="nJ6-yG-I1Y"/>
                 <constraint firstItem="rXG-gn-o2V" firstAttribute="top" secondItem="FhT-J1-SVS" secondAttribute="bottom" constant="8" id="naX-xA-Gji"/>
                 <constraint firstItem="2c2-0v-VWW" firstAttribute="top" secondItem="TXb-ht-vfu" secondAttribute="bottom" constant="8" id="wQY-YZ-CLG"/>
+                <constraint firstItem="Qct-X9-rk6" firstAttribute="leading" secondItem="5SK-aO-O1D" secondAttribute="trailing" constant="8" id="xW3-UA-xRR"/>
                 <constraint firstItem="2c2-0v-VWW" firstAttribute="leading" secondItem="hxO-4B-vXv" secondAttribute="trailing" constant="2" id="zEh-l0-z7t"/>
                 <constraint firstItem="zdR-IH-OQs" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="zwj-tY-dgn"/>
             </constraints>

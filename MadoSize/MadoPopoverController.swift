@@ -37,8 +37,12 @@ class MadoPopoverController: NSViewController {
     }
     
     override func viewWillDisappear() {
+        if let monitor = monitor {
+            NSEvent.removeMonitor(monitor)
+        }
+        
         if let window = window {
-            window.activateWithOptions(.ActivateAllWindows)
+            window.activateWithOptions(.ActivateIgnoringOtherApps)
         }
     }
     
@@ -53,32 +57,32 @@ class MadoPopoverController: NSViewController {
     func load() {
         if let window = window, title = window.appTitle, position = window.position, size = window.size {
             enableControls(true)
-            titleLabel.stringValue = "Mado: \(title)"
+            titleLabel.stringValue = title
             xPosTextField.integerValue = Int(position.x)
             yPosTextField.integerValue = Int(position.y)
             widthTextField.integerValue = Int(size.width)
             heightTextField.integerValue = Int(size.height)
         } else {
-            titleLabel.stringValue = "Mado: Nothing Selected"
+            titleLabel.stringValue = "No Active Window"
             enableControls(false)
         }
     }
     
     override func cancelOperation(sender: AnyObject?) {
-        if let monitor = monitor {
-            NSEvent.removeMonitor(monitor)
-        }
- 
         if let appDelegate = NSApp.delegate as? AppDelegate {
             appDelegate.closeDimensionsView(self)
         }
     }
     
     override func keyDown(theEvent: NSEvent) {
+        if theEvent.keyCode == 53 {
+            cancelOperation(self)
+        }
+        
         guard let window = window else {
             return
         }
-
+        
         let hasControl = theEvent.modifierFlags.contains(.ControlKeyMask)
         let hasAlternate = theEvent.modifierFlags.contains(.AlternateKeyMask)
         let hasShift = theEvent.modifierFlags.contains(.ShiftKeyMask)

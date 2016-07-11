@@ -16,7 +16,6 @@ class AppWindow {
     
     static func frontmost() -> AppWindow? {
         guard let frontmostApplication = NSWorkspace.sharedWorkspace().frontmostApplication else {
-            print("Failed to get the application that currently has focus.")
             return nil
         }
         
@@ -24,7 +23,6 @@ class AppWindow {
 
         var result: AnyObject?
         guard AXUIElementCopyAttributeValue(appElement, kAXFocusedWindowAttribute, &result) == .Success else {
-            print("Failed to get the window that currently has focus.")
             return nil
         }
         
@@ -66,6 +64,7 @@ class AppWindow {
     
     func center() {
         if let screen = screen(), size = size {
+            print("Current Screen: \(screen.visibleFrame)")
             let newX = screen.visibleFrame.midX - size.width / 2
             let newY = screen.frame.maxY - (screen.visibleFrame.midY + size.height / 2)
             position = CGPoint(x: newX, y: newY)
