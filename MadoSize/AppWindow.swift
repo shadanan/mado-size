@@ -72,7 +72,7 @@ class AppWindow {
         }
     }
     
-    private var position: CGPoint? {
+    private var appOrigin: CGPoint? {
         get {
             guard let positionValue = value(kAXPositionAttribute, type: .CGPoint) else {
                 return nil
@@ -96,7 +96,23 @@ class AppWindow {
         }
     }
     
-    private var size: CGSize? {
+    var origin: CGPoint? {
+        get {
+            guard let appOrigin = appOrigin, size = size else {
+                return nil
+            }
+            
+            return CGPoint(x: appOrigin.x, y: primaryScreenHeight - size.height - appOrigin.y)
+        }
+        
+        set {
+            if let newOrigin = newValue, size = size {
+                appOrigin = CGPoint(x: newOrigin.x, y: primaryScreenHeight - size.height - newOrigin.y)
+            }
+        }
+    }
+    
+    var size: CGSize? {
         get {
             guard let sizeValue = value(kAXSizeAttribute, type: .CGSize) else {
                 return nil
@@ -120,19 +136,35 @@ class AppWindow {
         }
     }
     
-    var frame: CGRect? {
+    var globalFrame: CGRect? {
         get {
-            guard let position = position, size = size else {
+            guard let origin = appOrigin, size = size else {
                 return nil
             }
             
-            return CGRect(origin: CGPoint(x: position.x, y: primaryScreenHeight - size.height - position.y), size: size)
+            return CGRect(origin: CGPoint(x: origin.x, y: primaryScreenHeight - size.height - origin.y), size: size)
         }
         
         set {
             if let frame = newValue {
-                position = CGPoint(x: frame.origin.x, y: primaryScreenHeight - frame.size.height - frame.origin.y)
+                appOrigin = CGPoint(x: frame.origin.x, y: primaryScreenHeight - frame.size.height - frame.origin.y)
                 size = frame.size
+            }
+        }
+    }
+    
+    var frame: CGRect? {
+        get {
+            guard let screen = screen(), globalFrame = globalFrame else {
+                return nil
+            }
+            
+            return CGRect(origin: globalFrame.origin - screen.frame.origin, size: globalFrame.size)
+        }
+        
+        set {
+            if let screen = screen(), localFrame = newValue {
+                globalFrame = CGRect(origin: localFrame.origin + screen.frame.origin, size: localFrame.size)
             }
         }
     }
@@ -142,13 +174,13 @@ class AppWindow {
         if let screen = screen(), size = size {
             let newX = screen.visibleFrame.midX - size.width / 2
             let newY = screen.visibleFrame.midY - size.height / 2
-            frame = CGRect(origin: CGPoint(x: newX, y: newY), size: size)
+            origin = CGPoint(x: newX, y: newY)
         }
     }
     
     func maximize() {
         if let screen = screen() {
-            frame = screen.visibleFrame
+            globalFrame = screen.visibleFrame
         }
     }
     
@@ -157,17 +189,17 @@ class AppWindow {
     }
     
     func screen() -> NSScreen? {
-        guard let screens = NSScreen.screens(), appFrame = frame else {
+        guard let screens = NSScreen.screens(), screenFrame = globalFrame else {
             return nil
         }
         
         var result: NSScreen? = nil
         var area: CGFloat = 0
 
-        print("App Frame: \(appFrame)")
+        print("App Frame: \(screenFrame)")
         for (index, screen) in screens.enumerate() {
             print("Screen \(index): \(screen.frame)")
-            let overlap = screen.frame.intersect(appFrame)
+            let overlap = screen.frame.intersect(screenFrame)
             if overlap.width * overlap.height > area {
                 area = overlap.width * overlap.height
                 result = screen
@@ -206,4 +238,12 @@ class AppWindow {
             return result as? String
         }
     }
+}
+
+func +(left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}
+
+func -(left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
