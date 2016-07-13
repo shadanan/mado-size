@@ -30,6 +30,16 @@ class AppWindow {
         return AppWindow(app: frontmostApplication, appElement: appElement, windowElement: windowElement)
     }
     
+    var primaryScreenHeight: CGFloat {
+        get {
+            if let screens = NSScreen.screens() {
+                return screens[0].frame.maxY
+            } else {
+                return 0
+            }
+        }
+    }
+    
     init(app: NSRunningApplication, appElement: AXUIElementRef, windowElement: AXUIElementRef) {
         self.app = app
         self.appElement = appElement
@@ -62,48 +72,7 @@ class AppWindow {
         }
     }
     
-    func center() {
-        if let screen = screen(), size = size {
-            print("Current Screen: \(screen.visibleFrame)")
-            let newX = screen.visibleFrame.midX - size.width / 2
-            let newY = screen.frame.maxY - (screen.visibleFrame.midY + size.height / 2)
-            position = CGPoint(x: newX, y: newY)
-        }
-    }
-    
-    func maximize() {
-        if let screen = screen() {
-            position = CGPoint(x: screen.visibleFrame.minX, y: screen.frame.maxY - screen.visibleFrame.maxY)
-            size = screen.visibleFrame.size
-        }
-    }
-    
-    func activateWithOptions(options: NSApplicationActivationOptions) {
-        app.activateWithOptions(options)
-    }
-    
-    func screen() -> NSScreen? {
-        guard let screens = NSScreen.screens(), position = position, size = size else {
-            return nil
-        }
-        
-        let appFrame = NSRect(origin: position, size: size)
-        
-        var result: NSScreen? = nil
-        var area: CGFloat = 0
-
-        for screen in screens {
-            let overlap = screen.frame.intersect(appFrame)
-            if overlap.width * overlap.height > area {
-                area = overlap.width * overlap.height
-                result = screen
-            }
-        }
-        
-        return result
-    }
-    
-    var position: CGPoint? {
+    private var position: CGPoint? {
         get {
             guard let positionValue = value(kAXPositionAttribute, type: .CGPoint) else {
                 return nil
@@ -127,7 +96,7 @@ class AppWindow {
         }
     }
     
-    var size: CGSize? {
+    private var size: CGSize? {
         get {
             guard let sizeValue = value(kAXSizeAttribute, type: .CGSize) else {
                 return nil
@@ -149,6 +118,63 @@ class AppWindow {
             let sizeRef = value.takeRetainedValue()
             setValue(sizeRef, attribute: kAXSizeAttribute)
         }
+    }
+    
+    var frame: CGRect? {
+        get {
+            guard let position = position, size = size else {
+                return nil
+            }
+            
+            return CGRect(origin: CGPoint(x: position.x, y: primaryScreenHeight - size.height - position.y), size: size)
+        }
+        
+        set {
+            if let frame = newValue {
+                position = CGPoint(x: frame.origin.x, y: primaryScreenHeight - frame.size.height - frame.origin.y)
+                size = frame.size
+            }
+        }
+    }
+    
+    
+    func center() {
+        if let screen = screen(), size = size {
+            let newX = screen.visibleFrame.midX - size.width / 2
+            let newY = screen.visibleFrame.midY - size.height / 2
+            frame = CGRect(origin: CGPoint(x: newX, y: newY), size: size)
+        }
+    }
+    
+    func maximize() {
+        if let screen = screen() {
+            frame = screen.visibleFrame
+        }
+    }
+    
+    func activateWithOptions(options: NSApplicationActivationOptions) {
+        app.activateWithOptions(options)
+    }
+    
+    func screen() -> NSScreen? {
+        guard let screens = NSScreen.screens(), appFrame = frame else {
+            return nil
+        }
+        
+        var result: NSScreen? = nil
+        var area: CGFloat = 0
+
+        print("App Frame: \(appFrame)")
+        for (index, screen) in screens.enumerate() {
+            print("Screen \(index): \(screen.frame)")
+            let overlap = screen.frame.intersect(appFrame)
+            if overlap.width * overlap.height > area {
+                area = overlap.width * overlap.height
+                result = screen
+            }
+        }
+        
+        return result
     }
     
     var appTitle: String? {

@@ -94,7 +94,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <action selector="positionFieldChanged:" target="-2" id="g8e-9U-g3n"/>
+                        <action selector="fieldChanged:" target="-2" id="6gz-rC-LDq"/>
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jaA-zP-GrP" userLabel="Y Label">
@@ -117,7 +117,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <action selector="positionFieldChanged:" target="-2" id="2e4-nJ-AVk"/>
+                        <action selector="fieldChanged:" target="-2" id="7yF-bG-gsd"/>
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXb-ht-vfu" userLabel="Size Label">
@@ -148,7 +148,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <action selector="sizeFieldChanged:" target="-2" id="Zyd-sk-3L6"/>
+                        <action selector="fieldChanged:" target="-2" id="ewi-xd-gKK"/>
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dgt-9y-IKH" userLabel="H Label">
@@ -171,7 +171,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <action selector="sizeFieldChanged:" target="-2" id="FFY-cI-VlV"/>
+                        <action selector="fieldChanged:" target="-2" id="viY-by-aFT"/>
                     </connections>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="il7-SP-U1W">
@@ -251,7 +251,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="441" y="240.5"/>
+            <point key="canvasLocation" x="181" y="403.5"/>
         </menu>
     </objects>
     <resources>
