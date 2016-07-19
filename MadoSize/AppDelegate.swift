@@ -32,7 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func closeDimensionsView(sender: AnyObject?) {
-        if let dimensionsView = dimensionsView {
+        if let dimensionsView = dimensionsView, popoverController = dimensionsView.contentViewController as? MadoPopoverController {
+            popoverController.reactivate(sender)
             dimensionsView.performClose(sender)
         }
 

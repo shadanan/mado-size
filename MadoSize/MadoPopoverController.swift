@@ -33,16 +33,12 @@ class MadoPopoverController: NSViewController {
         
         NSApp.activateIgnoringOtherApps(true)
         monitor = NSEvent.addGlobalMonitorForEventsMatchingMask([.LeftMouseDownMask, .RightMouseDownMask],
-                                                                handler: self.cancelOperation)
+                                                                handler: self.close)
     }
     
     override func viewWillDisappear() {
         if let monitor = monitor {
             NSEvent.removeMonitor(monitor)
-        }
-        
-        if let window = window {
-            window.activateWithOptions(.ActivateIgnoringOtherApps)
         }
     }
     
@@ -80,10 +76,21 @@ class MadoPopoverController: NSViewController {
         }
     }
     
-    override func cancelOperation(sender: AnyObject?) {
+    func close(sender: AnyObject?) {
         if let appDelegate = NSApp.delegate as? AppDelegate {
-            appDelegate.closeDimensionsView(self)
+            appDelegate.closeDimensionsView(sender)
         }
+    }
+    
+    func reactivate(sender: AnyObject?) {
+        if let window = window {
+            window.activateWithOptions(.ActivateIgnoringOtherApps)
+        }
+    }
+    
+    override func cancelOperation(sender: AnyObject?) {
+        reactivate(sender)
+        close(sender)
     }
     
     override func keyDown(theEvent: NSEvent) {
