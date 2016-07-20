@@ -20,7 +20,7 @@ class MadoPopoverController: NSViewController {
     @IBOutlet weak var settingsMenu: NSMenu!
     
     var window: AppWindow?
-    var monitor: AnyObject?
+    var timer: NSTimer?
 
     convenience init(window: AppWindow?) {
         self.init(nibName: "MadoPopoverController", bundle: nil)!
@@ -29,16 +29,15 @@ class MadoPopoverController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        load()
+        load(self)
         
         NSApp.activateIgnoringOtherApps(true)
-        monitor = NSEvent.addGlobalMonitorForEventsMatchingMask([.LeftMouseDownMask, .RightMouseDownMask],
-                                                                handler: self.close)
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: #selector(updateWindow), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear() {
-        if let monitor = monitor {
-            NSEvent.removeMonitor(monitor)
+        if let timer = timer {
+            timer.invalidate()
         }
     }
     
@@ -50,7 +49,15 @@ class MadoPopoverController: NSViewController {
         centerButton.enabled = enabled
     }
     
-    func load() {
+    func updateWindow(sender: AnyObject?) {
+        let window = AppWindow.frontmost()
+        if window?.appTitle != "MadoSize" {
+            self.window = window
+            load(sender)
+        }
+    }
+    
+    func load(sender: AnyObject?) {
         if let window = window, title = window.appTitle, frame = window.frame {
             enableControls(true)
             titleLabel.stringValue = title
@@ -113,30 +120,30 @@ class MadoPopoverController: NSViewController {
         if !hasControl && !hasAlternate && !hasCommand {
             if theEvent.keyCode == 123 {
                 window.frame = CGRect(origin: CGPoint(x: r.origin.x - delta, y: r.origin.y), size: r.size)
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 124 {
                 window.frame = CGRect(origin: CGPoint(x: r.origin.x + delta, y: r.origin.y), size: r.size)
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 125 {
                 window.frame = CGRect(origin: CGPoint(x: r.origin.x, y: r.origin.y - delta), size: r.size)
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 126 {
                 window.frame = CGRect(origin: CGPoint(x: r.origin.x, y: r.origin.y + delta), size: r.size)
-                load()
+                load(theEvent)
             }
         } else if !hasControl && hasAlternate && !hasCommand {
             if theEvent.keyCode == 123 {
                 window.frame = CGRect(origin: r.origin, size: CGSize(width: r.size.width - delta, height: r.size.height))
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 124 {
                 window.frame = CGRect(origin: r.origin, size: CGSize(width: r.size.width + delta, height: r.size.height))
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 125 {
                 window.frame = CGRect(origin: r.origin, size: CGSize(width: r.size.width, height: r.size.height - delta))
-                load()
+                load(theEvent)
             } else if theEvent.keyCode == 126 {
                 window.frame = CGRect(origin: r.origin, size: CGSize(width: r.size.width, height: r.size.height + delta))
-                load()
+                load(theEvent)
             }
         }
     }
@@ -155,7 +162,7 @@ class MadoPopoverController: NSViewController {
         }
         
         window.frame = rect
-        load()
+        load(sender)
     }
     
     
@@ -166,7 +173,7 @@ class MadoPopoverController: NSViewController {
         }
         
         window.center()
-        load()
+        load(sender)
     }
 
     @IBAction func maximizeWindow(sender: AnyObject) {
@@ -175,6 +182,6 @@ class MadoPopoverController: NSViewController {
         }
         
         window.maximize()
-        load()
+        load(sender)
     }
 }

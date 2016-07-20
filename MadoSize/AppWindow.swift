@@ -9,7 +9,7 @@
 import Cocoa
 import Foundation
 
-class AppWindow {
+class AppWindow: CustomStringConvertible {
     let app: NSRunningApplication
     let appElement: AXUIElementRef
     let windowElement: AXUIElementRef
@@ -196,9 +196,7 @@ class AppWindow {
         var result: NSScreen? = nil
         var area: CGFloat = 0
 
-        print("App Frame: \(screenFrame)")
-        for (index, screen) in screens.enumerate() {
-            print("Screen \(index): \(screen.frame)")
+        for screen in screens {
             let overlap = screen.frame.intersect(screenFrame)
             if overlap.width * overlap.height > area {
                 area = overlap.width * overlap.height
@@ -236,6 +234,12 @@ class AppWindow {
             }
             
             return result as? String
+        }
+    }
+    
+    var description: String {
+        get {
+            return "\(appTitle): \(windowTitle) - Frame: \(frame)"
         }
     }
 }
