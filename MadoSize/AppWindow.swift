@@ -178,9 +178,47 @@ class AppWindow: CustomStringConvertible {
         }
     }
     
+    func alignLeft() {
+        if let visibleFrame = screen()?.visibleFrame, origin = origin {
+            self.origin = CGPoint(x: visibleFrame.origin.x, y: origin.y)
+        }
+    }
+    
+    func alignRight() {
+        if let visibleFrame = screen()?.visibleFrame, origin = origin, size = size {
+            self.origin = CGPoint(x: visibleFrame.width - size.width, y: origin.y)
+        }
+    }
+    
+    func alignUp() {
+        if let visibleFrame = screen()?.visibleFrame, origin = origin, size = size {
+            self.origin = CGPoint(x: origin.x, y: visibleFrame.height - size.height)
+        }
+    }
+    
+    func alignDown() {
+        if let visibleFrame = screen()?.visibleFrame, origin = origin {
+            self.origin = CGPoint(x: origin.x, y: visibleFrame.origin.y)
+        }
+    }
+    
     func maximize() {
-        if let screen = screen() {
-            globalFrame = screen.visibleFrame
+        if let visibleFrame = screen()?.visibleFrame {
+            globalFrame = visibleFrame
+        }
+    }
+    
+    func maximizeVertical() {
+        if let visibleFrame = screen()?.visibleFrame, current = globalFrame {
+            globalFrame = CGRect(x: current.origin.x, y: visibleFrame.origin.y,
+                                 width: current.width, height: visibleFrame.height)
+        }
+    }
+    
+    func maximizeHorizontal() {
+        if let visibleFrame = screen()?.visibleFrame, current = globalFrame {
+            globalFrame = CGRect(x: visibleFrame.origin.x, y: current.origin.y,
+                                 width: visibleFrame.width, height: current.height)
         }
     }
     

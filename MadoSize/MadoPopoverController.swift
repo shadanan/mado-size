@@ -13,8 +13,9 @@ class MadoPopoverController: NSViewController {
     @IBOutlet weak var yPosTextField: NSTextField!
     @IBOutlet weak var widthTextField: NSTextField!
     @IBOutlet weak var heightTextField: NSTextField!
-    @IBOutlet weak var centerButton: NSButton!
     @IBOutlet weak var titleLabel: NSTextField!
+    @IBOutlet weak var resizeButtons: NSSegmentedControl!
+    @IBOutlet weak var realignButtons: NSSegmentedControl!
 
     @IBOutlet weak var settingsButton: NSButton!
     @IBOutlet weak var settingsMenu: NSMenu!
@@ -46,7 +47,8 @@ class MadoPopoverController: NSViewController {
         yPosTextField.enabled = enabled
         widthTextField.enabled = enabled
         heightTextField.enabled = enabled
-        centerButton.enabled = enabled
+        resizeButtons.enabled = enabled
+        realignButtons.enabled = enabled
     }
     
     func updateWindow(sender: AnyObject?) {
@@ -164,24 +166,46 @@ class MadoPopoverController: NSViewController {
         window.frame = rect
         load(sender)
     }
-    
-    
 
-    @IBAction func centerWindow(sender: AnyObject) {
+    @IBAction func realignClicked(sender: NSSegmentedControl) {
         guard let window = window else {
             return
         }
         
-        window.center()
+        switch sender.selectedSegment {
+        case 0:
+            window.center()
+        case 1:
+            window.alignLeft()
+        case 2:
+            window.alignRight()
+        case 3:
+            window.alignUp()
+        case 4:
+            window.alignDown()
+        default:
+            print("Unknown button value: \(sender.selectedSegment)")
+        }
+        
         load(sender)
     }
 
-    @IBAction func maximizeWindow(sender: AnyObject) {
+    @IBAction func resizeClicked(sender: NSSegmentedControl) {
         guard let window = window else {
             return
         }
         
-        window.maximize()
+        switch sender.selectedSegment {
+        case 0:
+            window.maximize()
+        case 1:
+            window.maximizeHorizontal()
+        case 2:
+            window.maximizeVertical()
+        default:
+            print("Unknown button value: \(sender.selectedSegment)")
+        }
+        
         load(sender)
     }
 }
