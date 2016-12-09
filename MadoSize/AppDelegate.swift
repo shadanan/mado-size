@@ -11,28 +11,28 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var dimensionsView: NSPopover?
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         if let button = statusItem.button {
             button.image = NSImage(named: "StatusItem")
             button.action = #selector(toggleDimensionsView)
         }
     }
     
-    func showDimensionsView(sender: AnyObject?) {
+    func showDimensionsView(_ sender: AnyObject?) {
         if let button = statusItem.button {
             let appWindow = AppWindow.frontmost()
 
             let dimensionsView = NSPopover()
             dimensionsView.contentViewController = MadoPopoverController(window: appWindow)
-            dimensionsView.showRelativeToRect(button.bounds, ofView: button, preferredEdge: .MinY)
+            dimensionsView.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             self.dimensionsView = dimensionsView
         }
     }
     
-    func closeDimensionsView(sender: AnyObject?) {
-        if let dimensionsView = dimensionsView, popoverController = dimensionsView.contentViewController as? MadoPopoverController {
+    func closeDimensionsView(_ sender: AnyObject?) {
+        if let dimensionsView = dimensionsView, let popoverController = dimensionsView.contentViewController as? MadoPopoverController {
             popoverController.reactivate(sender)
             dimensionsView.performClose(sender)
         }
@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dimensionsView = nil
     }
     
-    func toggleDimensionsView(sender: AnyObject?) {
+    func toggleDimensionsView(_ sender: AnyObject?) {
         if dimensionsView == nil {
             showDimensionsView(sender)
         } else {
@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         
         // Insert code here to tear down your application
     }

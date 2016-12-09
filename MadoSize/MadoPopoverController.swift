@@ -21,7 +21,7 @@ class MadoPopoverController: NSViewController {
     @IBOutlet weak var settingsMenu: NSMenu!
     
     var window: AppWindow?
-    var timer: NSTimer?
+    var timer: Timer?
 
     convenience init(window: AppWindow?) {
         self.init(nibName: "MadoPopoverController", bundle: nil)!
@@ -32,8 +32,8 @@ class MadoPopoverController: NSViewController {
         super.viewDidLoad()
         load(self)
         
-        NSApp.activateIgnoringOtherApps(true)
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: #selector(updateWindow), userInfo: nil, repeats: true)
+        NSApp.activate(ignoringOtherApps: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateWindow), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear() {
@@ -42,16 +42,16 @@ class MadoPopoverController: NSViewController {
         }
     }
     
-    func enableControls(enabled: Bool) {
-        xPosTextField.enabled = enabled
-        yPosTextField.enabled = enabled
-        widthTextField.enabled = enabled
-        heightTextField.enabled = enabled
-        resizeButtons.enabled = enabled
-        realignButtons.enabled = enabled
+    func enableControls(_ enabled: Bool) {
+        xPosTextField.isEnabled = enabled
+        yPosTextField.isEnabled = enabled
+        widthTextField.isEnabled = enabled
+        heightTextField.isEnabled = enabled
+        resizeButtons.isEnabled = enabled
+        realignButtons.isEnabled = enabled
     }
     
-    func updateWindow(sender: AnyObject?) {
+    func updateWindow(_ sender: AnyObject?) {
         let window = AppWindow.frontmost()
         if window?.appTitle != "MadoSize" {
             self.window = window
@@ -59,8 +59,8 @@ class MadoPopoverController: NSViewController {
         }
     }
     
-    func load(sender: AnyObject?) {
-        if let window = window, title = window.appTitle, frame = window.frame {
+    func load(_ sender: AnyObject?) {
+        if let window = window, let title = window.appTitle, let frame = window.frame {
             enableControls(true)
             titleLabel.stringValue = title
             rect = frame
@@ -85,24 +85,24 @@ class MadoPopoverController: NSViewController {
         }
     }
     
-    func close(sender: AnyObject?) {
+    func close(_ sender: AnyObject?) {
         if let appDelegate = NSApp.delegate as? AppDelegate {
             appDelegate.closeDimensionsView(sender)
         }
     }
     
-    func reactivate(sender: AnyObject?) {
+    func reactivate(_ sender: AnyObject?) {
         if let window = window {
-            window.activateWithOptions(.ActivateIgnoringOtherApps)
+            window.activateWithOptions(.activateIgnoringOtherApps)
         }
     }
     
-    override func cancelOperation(sender: AnyObject?) {
-        reactivate(sender)
-        close(sender)
+    override func cancelOperation(_ sender: Any?) {
+        reactivate(sender as AnyObject?)
+        close(sender as AnyObject?)
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         if theEvent.keyCode == 53 {
             cancelOperation(self)
         }
@@ -111,10 +111,10 @@ class MadoPopoverController: NSViewController {
             return
         }
         
-        let hasControl = theEvent.modifierFlags.contains(.ControlKeyMask)
-        let hasAlternate = theEvent.modifierFlags.contains(.AlternateKeyMask)
-        let hasShift = theEvent.modifierFlags.contains(.ShiftKeyMask)
-        let hasCommand = theEvent.modifierFlags.contains(.CommandKeyMask)
+        let hasControl = theEvent.modifierFlags.contains(.control)
+        let hasAlternate = theEvent.modifierFlags.contains(.option)
+        let hasShift = theEvent.modifierFlags.contains(.shift)
+        let hasCommand = theEvent.modifierFlags.contains(.command)
         
         let r = rect
         let delta: CGFloat = hasShift ? 5 : 1
@@ -150,15 +150,15 @@ class MadoPopoverController: NSViewController {
         }
     }
 
-    @IBAction func quitApplication(sender: AnyObject) {
+    @IBAction func quitApplication(_ sender: AnyObject) {
         NSApp.terminate(self)
     }
 
-    @IBAction func showSettingsMenu(sender: AnyObject) {
-        NSMenu.popUpContextMenu(settingsMenu, withEvent: NSApp.currentEvent!, forView: settingsButton)
+    @IBAction func showSettingsMenu(_ sender: AnyObject) {
+        NSMenu.popUpContextMenu(settingsMenu, with: NSApp.currentEvent!, for: settingsButton)
     }
     
-    @IBAction func fieldChanged(sender: NSTextField) {
+    @IBAction func fieldChanged(_ sender: NSTextField) {
         guard let window = window else {
             return
         }
@@ -167,7 +167,7 @@ class MadoPopoverController: NSViewController {
         load(sender)
     }
 
-    @IBAction func realignClicked(sender: NSSegmentedControl) {
+    @IBAction func realignClicked(_ sender: NSSegmentedControl) {
         guard let window = window else {
             return
         }
@@ -190,7 +190,7 @@ class MadoPopoverController: NSViewController {
         load(sender)
     }
 
-    @IBAction func resizeClicked(sender: NSSegmentedControl) {
+    @IBAction func resizeClicked(_ sender: NSSegmentedControl) {
         guard let window = window else {
             return
         }

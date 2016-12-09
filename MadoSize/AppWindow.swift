@@ -11,22 +11,22 @@ import Foundation
 
 class AppWindow: CustomStringConvertible {
     let app: NSRunningApplication
-    let appElement: AXUIElementRef
-    let windowElement: AXUIElementRef
+    let appElement: AXUIElement
+    let windowElement: AXUIElement
     
     static func frontmost() -> AppWindow? {
-        guard let frontmostApplication = NSWorkspace.sharedWorkspace().frontmostApplication else {
+        guard let frontmostApplication = NSWorkspace.shared().frontmostApplication else {
             return nil
         }
         
-        let appElement = AXUIElementCreateApplication(frontmostApplication.processIdentifier).takeRetainedValue()
+        let appElement = AXUIElementCreateApplication(frontmostApplication.processIdentifier)
 
         var result: AnyObject?
-        guard AXUIElementCopyAttributeValue(appElement, kAXFocusedWindowAttribute, &result) == .Success else {
+        guard AXUIElementCopyAttributeValue(appElement, kAXFocusedWindowAttribute as CFString, &result) == .success else {
             return nil
         }
         
-        let windowElement = result as! AXUIElementRef
+        let windowElement = result as! AXUIElement
         return AppWindow(app: frontmostApplication, appElement: appElement, windowElement: windowElement)
     }
     
@@ -40,23 +40,23 @@ class AppWindow: CustomStringConvertible {
         }
     }
     
-    init(app: NSRunningApplication, appElement: AXUIElementRef, windowElement: AXUIElementRef) {
+    init(app: NSRunningApplication, appElement: AXUIElement, windowElement: AXUIElement) {
         self.app = app
         self.appElement = appElement
         self.windowElement = windowElement
     }
     
-    private func value(attribute: String, type: AXValueType) -> AXValueRef? {
+    fileprivate func value(_ attribute: String, type: AXValueType) -> AXValue? {
         guard CFGetTypeID(windowElement) == AXUIElementGetTypeID() else {
             return nil
         }
         
         var result: AnyObject?
-        guard AXUIElementCopyAttributeValue(windowElement, attribute, &result) == .Success else {
+        guard AXUIElementCopyAttributeValue(windowElement, attribute as CFString, &result) == .success else {
             return nil
         }
         
-        let value = result as! AXValueRef
+        let value = result as! AXValue
         guard AXValueGetType(value) == type else {
             return nil
         }
@@ -64,41 +64,40 @@ class AppWindow: CustomStringConvertible {
         return value
     }
     
-    private func setValue(value: AXValueRef, attribute: String) {
-        let status = AXUIElementSetAttributeValue(windowElement, attribute, value)
+    fileprivate func setValue(_ value: AXValue, attribute: String) {
+        let status = AXUIElementSetAttributeValue(windowElement, attribute as CFString, value)
 
-        if status != .Success {
+        if status != .success {
             print("Failed to set \(attribute)=\(value)")
         }
     }
     
-    private var appOrigin: CGPoint? {
+    fileprivate var appOrigin: CGPoint? {
         get {
-            guard let positionValue = value(kAXPositionAttribute, type: .CGPoint) else {
+            guard let positionValue = value(kAXPositionAttribute, type: .cgPoint) else {
                 return nil
             }
             
             var position = CGPoint()
-            AXValueGetValue(positionValue, .CGPoint, &position)
+            AXValueGetValue(positionValue, .cgPoint, &position)
             
             return position
         }
         
         set {
             var origin = newValue
-            guard let value = AXValueCreate(.CGPoint, &origin) else {
+            guard let positionRef = AXValueCreate(.cgPoint, &origin) else {
                 print("Failed to create positionRef")
                 return
             }
             
-            let positionRef = value.takeRetainedValue()
             setValue(positionRef, attribute: kAXPositionAttribute)
         }
     }
     
     var origin: CGPoint? {
         get {
-            guard let appOrigin = appOrigin, size = size else {
+            guard let appOrigin = appOrigin, let size = size else {
                 return nil
             }
             
@@ -106,7 +105,7 @@ class AppWindow: CustomStringConvertible {
         }
         
         set {
-            if let newOrigin = newValue, size = size {
+            if let newOrigin = newValue, let size = size {
                 appOrigin = CGPoint(x: newOrigin.x, y: primaryScreenHeight - size.height - newOrigin.y)
             }
         }
@@ -114,31 +113,30 @@ class AppWindow: CustomStringConvertible {
     
     var size: CGSize? {
         get {
-            guard let sizeValue = value(kAXSizeAttribute, type: .CGSize) else {
+            guard let sizeValue = value(kAXSizeAttribute, type: .cgSize) else {
                 return nil
             }
             
             var size = CGSize()
-            AXValueGetValue(sizeValue, .CGSize, &size)
+            AXValueGetValue(sizeValue, .cgSize, &size)
             
             return size
         }
         
         set {
             var size = newValue
-            guard let value = AXValueCreate(.CGSize, &size) else {
+            guard let sizeRef = AXValueCreate(.cgSize, &size) else {
                 print("Failed to create sizeRef")
                 return
             }
             
-            let sizeRef = value.takeRetainedValue()
             setValue(sizeRef, attribute: kAXSizeAttribute)
         }
     }
     
     var globalFrame: CGRect? {
         get {
-            guard let origin = appOrigin, size = size else {
+            guard let origin = appOrigin, let size = size else {
                 return nil
             }
             
@@ -155,7 +153,7 @@ class AppWindow: CustomStringConvertible {
     
     var frame: CGRect? {
         get {
-            guard let screen = screen(), globalFrame = globalFrame else {
+            guard let screen = screen(), let globalFrame = globalFrame else {
                 return nil
             }
             
@@ -163,7 +161,7 @@ class AppWindow: CustomStringConvertible {
         }
         
         set {
-            if let screen = screen(), localFrame = newValue {
+            if let screen = screen(), let localFrame = newValue {
                 globalFrame = CGRect(origin: localFrame.origin + screen.frame.origin, size: localFrame.size)
             }
         }
@@ -171,7 +169,7 @@ class AppWindow: CustomStringConvertible {
     
     
     func center() {
-        if let screen = screen(), size = size {
+        if let screen = screen(), let size = size {
             let newX = screen.visibleFrame.midX - size.width / 2
             let newY = screen.visibleFrame.midY - size.height / 2
             origin = CGPoint(x: newX, y: newY)
@@ -179,25 +177,25 @@ class AppWindow: CustomStringConvertible {
     }
     
     func alignLeft() {
-        if let visibleFrame = screen()?.visibleFrame, origin = origin {
+        if let visibleFrame = screen()?.visibleFrame, let origin = origin {
             self.origin = CGPoint(x: visibleFrame.origin.x, y: origin.y)
         }
     }
     
     func alignRight() {
-        if let visibleFrame = screen()?.visibleFrame, origin = origin, size = size {
+        if let visibleFrame = screen()?.visibleFrame, let origin = origin, let size = size {
             self.origin = CGPoint(x: visibleFrame.width - size.width, y: origin.y)
         }
     }
     
     func alignUp() {
-        if let visibleFrame = screen()?.visibleFrame, origin = origin, size = size {
+        if let visibleFrame = screen()?.visibleFrame, let origin = origin, let size = size {
             self.origin = CGPoint(x: origin.x, y: visibleFrame.height - size.height)
         }
     }
     
     func alignDown() {
-        if let visibleFrame = screen()?.visibleFrame, origin = origin {
+        if let visibleFrame = screen()?.visibleFrame, let origin = origin {
             self.origin = CGPoint(x: origin.x, y: visibleFrame.origin.y)
         }
     }
@@ -209,25 +207,25 @@ class AppWindow: CustomStringConvertible {
     }
     
     func maximizeVertical() {
-        if let visibleFrame = screen()?.visibleFrame, current = globalFrame {
+        if let visibleFrame = screen()?.visibleFrame, let current = globalFrame {
             globalFrame = CGRect(x: current.origin.x, y: visibleFrame.origin.y,
                                  width: current.width, height: visibleFrame.height)
         }
     }
     
     func maximizeHorizontal() {
-        if let visibleFrame = screen()?.visibleFrame, current = globalFrame {
+        if let visibleFrame = screen()?.visibleFrame, let current = globalFrame {
             globalFrame = CGRect(x: visibleFrame.origin.x, y: current.origin.y,
                                  width: visibleFrame.width, height: current.height)
         }
     }
     
-    func activateWithOptions(options: NSApplicationActivationOptions) {
-        app.activateWithOptions(options)
+    func activateWithOptions(_ options: NSApplicationActivationOptions) {
+        app.activate(options: options)
     }
     
     func screen() -> NSScreen? {
-        guard let screens = NSScreen.screens(), screenFrame = globalFrame else {
+        guard let screens = NSScreen.screens(), let screenFrame = globalFrame else {
             return nil
         }
         
@@ -235,7 +233,7 @@ class AppWindow: CustomStringConvertible {
         var area: CGFloat = 0
 
         for screen in screens {
-            let overlap = screen.frame.intersect(screenFrame)
+            let overlap = screen.frame.intersection(screenFrame)
             if overlap.width * overlap.height > area {
                 area = overlap.width * overlap.height
                 result = screen
@@ -252,7 +250,7 @@ class AppWindow: CustomStringConvertible {
             }
             
             var result: AnyObject?
-            guard AXUIElementCopyAttributeValue(appElement, kAXTitleAttribute, &result) == .Success else {
+            guard AXUIElementCopyAttributeValue(appElement, kAXTitleAttribute as CFString, &result) == .success else {
                 return nil
             }
             
@@ -267,7 +265,7 @@ class AppWindow: CustomStringConvertible {
             }
             
             var result: AnyObject?
-            guard AXUIElementCopyAttributeValue(windowElement, kAXTitleAttribute, &result) == .Success else {
+            guard AXUIElementCopyAttributeValue(windowElement, kAXTitleAttribute as CFString, &result) == .success else {
                 return nil
             }
             
